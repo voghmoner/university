@@ -1,0 +1,68 @@
+#!/usr/bin/perl -w
+
+# Programa suskaičiuoja pateiktuose failuose esančių molekulių 
+# geometrinius centrus.
+
+# Programos paleidimas: pdbcenter 1zyx.pdbx [2zyx.pdbx ...]
+
+use strict;
+use warnings;
+
+	
+
+my $currentId = '$Id$';
+print "# ", $currentId, "\n";
+# my $carbonMass = 12.0107;
+my $x = 0;
+my $y = 0;
+my $z = 0;
+my $iterationNumber = 0;
+my $lineNr = 0;
+# my @alphabet = ('A'..'Z');
+my $currentAminoAcid = "";
+my @aminoCoordinates = [];
+while(<>) {
+	if(m/^ATOM/) {
+		# print $_;
+		
+		my @components = split /\s+/, $_;
+		my @coordinates = splice @components, 10, 3, "x"; 
+		my $aminoAcid = splice @components, 5, 1, "x";
+		print $aminoAcid, "\n"; 
+		print "@coordinates\n";
+			print $lineNr, "\n";
+	 	$lineNr += 1;
+		if($lineNr < 5){
+			$currentAminoAcid = $aminoAcid;
+			push(@aminoCoordinates, @coordinates);
+		}
+		elsif($lineNr == 5){
+			print "@aminoCoordinates\n";
+		}
+		elsif(($aminoAcid ne $currentAminoAcid) || eof){
+			@aminoCoordinates = [];
+			push(@aminoCoordinates, @coordinates);
+			$currentAminoAcid = $aminoAcid;
+			$lineNr = 1;
+		}
+		# $x += $coordinates[0];
+		# $y += $coordinates[1];
+	 	# $z += $coordinates[2];
+
+ 	}
+# 	if(eof) {
+# 		if($lineNumber == 0){
+# 			warn("There are no atoms in the input file at line $.");
+# 		}
+# 		my $xCentre = FindCentre($x, $lineNumber);
+# 		my $yCentre = FindCentre($y, $lineNumber);
+# 		my $zCentre = FindCentre($z, $lineNumber);
+# 		my $separator = "  ";
+# 		$lineNumber = 0;		
+# 		my $outputData = "ATOM  1 CA  CCC ".$alphabet[$iterationNumber]."  1".
+# 		"  ".$xCentre."  ".$yCentre."  ".$zCentre." 1.0 10.00\n";
+# 		$outputData =~ s/\s\-/\-/g;
+# 		$iterationNumber += 1;
+# 		print $outputData;
+	# }
+}

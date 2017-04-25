@@ -1,0 +1,145 @@
+#!/usr/bin/perl -w
+
+# Programa suskaičiuoja pateiktuose failuose esančių peptidų
+# phi ir psi kampus ir juos išveda į standartinę išvestį.
+
+# Programos paleidimas: pdbcenter 1zyx.pdb [2zyx.pdb ...]
+
+use strict;
+use warnings;
+
+
+# sub dihedralAngle($v1, $v2, $v3, $v4){
+# 	$b1 = $v1 - $v2;
+# 	$b2 = $v3 - $v2;
+# 	$b3 = $v4 - $v3;
+
+# 	$n1 = crossProduct($b1, $c1);
+# 	$n2 = crossProduct($b2, $b3);
+
+# 	return dotProduct($n1, $n2) / vectorLenght($n1) * vectorLenght($n2);
+
+# }
+my @u = ();
+my @v = ();
+sub substractVectors {
+    my ($one_ref, $two_ref) = @_;
+    @u = @{ $one_ref };       # dereferencing and copying each array
+    @v = @{ $two_ref };
+    print "@u\n";
+    print "@v\n";
+
+	print $u[0],"\n";
+	my $y = $u[1] - $v[1];
+	my $z = $u[2] - $v[2];
+
+	# my @w = ($x, $y, $z);
+	# print "@w", "\n";
+	# push @b1, $x;
+
+
+}
+# sub crossProduct(@x, @y){
+# 	$a = $x[1] * $y[2] - $y[1] * $x[2];
+# 	$b = $x[0] * $y[2] - $y[0] * $x[2];
+# 	$c = $x[0] * $y[1] - $y[0] * $x[1];
+# 	return [$a, $b, $c];
+# }
+
+# sub dotProduct(@x, @y){
+# 	for( my $i = 0; $i < 3; $i++ ) {
+#         print $x[$i]. $y[$i], "\n";
+#     }
+# }
+
+
+my $currentId = '$Id$';
+print "# ", $currentId, "\n";
+# my $carbonMass = 12.0107;
+my $x = 0;
+my $y = 0;
+my $z = 0;
+my $iterationNumber = 0;
+my $lineNr = 0;
+# my @alphabet = ('A'..'Z');
+my $currentAminoAcid = "";
+my @aminoCoordinates = [];
+my @carbonCoordinates = [];
+my @nitrogenCoord = ();
+my @carbonAlphaCoord = [];
+my @carbonCoord = [];
+my @b1 = [];
+# my $x = 0;
+while(<>) {
+	if(m/^ATOM/) {
+		# print $_;
+		
+		my @components = split /\s+/, $_;
+		my @coordinates = @components[6..8]; 
+		my @aminoAcid = @components[2..3];
+		my @residue = @components[1..2];
+		print $aminoAcid[1], "\n"; 
+		# print $residue[1]; 
+		# print "@coordinates\n";
+		$lineNr += 1;
+		# print $lineNr, "\n";
+		if($lineNr < 4){
+			# print "@carbonCoordinates\n";
+			if($residue[1] eq "N"){
+				# print "yay";
+				@nitrogenCoord = @coordinates;		
+				# print "@nitrogenCoord\n";
+			}
+			elsif($residue[1] eq "CA"){
+				push(@carbonAlphaCoord, @coordinates);
+			}
+			elsif($residue[1] eq "C"){
+				push(@carbonCoord, @coordinates);
+			}
+			# phi skaičiavimas
+			# $b1 = $ - $v2;
+			# $b2 = $v3 - $v2;
+			# $b3 = $v4 - $v3;
+			# for( my $i = 0; $i < 3; $i++ ) {
+   #      		my $x = $carbonCoordinates[$i] - $nitrogenCoord[$i];
+   #      		print $i, $x, " ";
+   #      		# push @b1, $x;
+
+   #  		}
+
+			# print "@b1\n";
+			@b1 = [];
+
+			# $n1 = crossProduct($b1, $c1);
+			# $n2 = crossProduct($b2, $b3);
+
+	# return dotProduct($n1, $n2) / vectorLenght($n1) * vectorLenght($n2);
+
+			# print $phi;
+			
+		}
+		elsif($lineNr == 4){
+			# print "carbonCoordinates\n";
+			# print "@nitrogenCoord\n";
+
+			substractVectors(\@carbonCoordinates, \@nitrogenCoord);
+			@carbonCoordinates = [];
+			push(@carbonCoordinates, @carbonCoord);
+			# print "@aminoCoordinates\n";
+			$currentAminoAcid = $aminoAcid[1];
+		}
+		elsif(($aminoAcid[0] ne $currentAminoAcid) || eof){
+			push(@aminoCoordinates, @coordinates);
+			@nitrogenCoord=();
+			@carbonAlphaCoord = [];
+			@carbonCoord = [];
+			push(@aminoCoordinates, @coordinates);
+			$currentAminoAcid = $aminoAcid[1];
+			$lineNr = 1;
+		}
+		# $x += $coordinates[0];
+		# $y += $coordinates[1];
+		# $z += $coordinates[2];
+
+	}
+}

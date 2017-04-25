@@ -1,0 +1,97 @@
+Peptido phi ir psi kampų radimas
+================================
+
+PROGRAMA
+========
+
+Parašykite Perl programą, kuri surastų PDB faile pateiktų peptidų phi
+ir psi kampus ir išvestų juos į savo standartinę išvestį.
+
+Programos vardas:
+pdbphipsi
+
+Programos iškvietimas:
+pdbphipsi 1zyx.pdb [2zyx.pdb ...]
+
+Įvesties failų vardai komandinėje eilutėje nėra būtini; jei jie
+nenurodyti, programa turi skaityti iš savo standartinės įvesties
+(STDIN).
+
+DUOMENŲ FORMATAI
+================
+
+Įvestis pateikiama PDB formatu. Iš duomenų srauto programa turi
+analizuoti tik 'ATOM ' įrašus; kiti įrašai, o taip pat ATOM įrašai,
+kurie neaprašo amino rūgščių (a.r.) liekanų, turi būti ignoruojami.
+
+Pirmoji išvesties eilutė turi būti komentaro įrašas (prasidedantis '#'
+simboliu) su programos Id. Programos Id turi automatiškai sugeneruoti
+Jūsų naudojama versijų kontrolės sistema.
+
+Pvz.:
+
+# $Id: pdbphipsi 1238 2009-09-03 07:14:51Z author $
+
+Po to programa turi pateikti informaciją apie surastus phi ir psi
+kampus. Išvesties formatas: kiekvienai a.r. liekanai programa turi
+išvesti po vieną eilutę, kurioje surašyti tuščia erdve
+(angl. whitespace) atskirti šie laukai:
+
+ - raktinis žodis PHIPSI
+ - phi kampo reikšmė laipsniais
+ - psi kampo reikšmė laipsniais
+ - įvesties failo vardas
+ - grandinė
+ - liekanos vardas
+ - liekanos numeris (su įterpties kodu).
+
+Formato pavyzdys (su bet kokiais, nebūtinai gyvenime sutinkamais
+skaičiais):
+
+PHIPSI -   3.8    1xyz.pdb B ALA 2
+PHIPSI 3.8 109.6  1xyz.pdb B ALA 3
+PHIPSI 3.8 109.51 1xyz.pdb B GLY 3A
+PHIPSI 3.8 109.51 1xyz.pdb B ASP 4
+PHIPSI 3.8 -      1xyz.pdb B ASP 5
+
+Jei programa skaito iš standartinės įvesties, failo vardas turi būti
+'-' (vienas brūkšnelis, tik, žinoma, be kabučių). Jei grandinės vardas
+PDB faile yra tarpas, vietoj grandinės vardo reikia rašyti '' (dvi
+viengubas kabutes). Jei phi arba psi kampai neapibrėžti (pvz.,
+pirmajai arba paskutiniajai liekanai, arba liekanoms prieš/po tarpų
+sekoje), vietoj jų reikia rašyti vieną brūkšnelį ("-", tik, žinoma, be
+kabučių). Liekanas su įterpties kodais (insertion code) apdorokite
+kaip einančius sekoje toje vietoje, kur jie sutikti PDB faile. Jei
+liekana turi alternatyvios pozicijos indikatorių, apdorokite pirmąją
+alternatyvią poziciją, kitas ignoruokite.
+
+Išvedamam kampui pasirinkite tinkamą tikslumą. T.y. išveskite tiek
+dešimtainių skaitmenų, kiek jų tikrųjų galite gauti iš turimų PDB
+koordinačių su trimis reikšminiais skaitmenimis, ir gal būt vieną-du
+atsarginius skaitmenis, bet ne daugiau.
+
+Liekanų tvarka grandinėje turi būti nustatoma pagal liekanų numerius,
+t.y. jei po 200 liekanos eina 203, programa turi suprasti, kad tarp
+šių dviejų liekanų peptido modelyje yra tarpas ir atitinkamų kampų
+neskaičiuoti. 
+
+DIAGNOSTIKA
+===========
+
+Programa turi pranešti apie šias klaidas:
+
+  - Nurodyti komandinėje eilutėje failai neegzistuoja arba jų
+    neįmanoma perskaityti (galima naudoti "gimtąją" Perl diagnostiką;
+    galima naudoti Perl'o kalbos 'while(<>){ ... }' konstrukciją);
+
+  - Netinkamas skaičių formatas koordinačių laukuose (galima naudoti
+    "gimtąją" Perl diagnostiką);
+
+  - Peptido liekanoje grandinės viduryje rasti ne visi reikiami
+    pagrindinės grandinės atomai (perspėjimas);
+
+  - Įvesties sraute nėra nei vieno atomo tinkamo skaičiavimams;
+
+Klaidos pranešimo formatas -- toks, kokį išveda Perl'as savo
+funkcijomis die() ir warn(). Pranešimuose turi būti nurodytas
+apdorojamo failo, kuriame rasta klaida, vardas ir klaidinga eilutė.
