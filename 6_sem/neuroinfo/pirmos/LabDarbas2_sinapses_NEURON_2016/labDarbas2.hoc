@@ -1,0 +1,235 @@
+//Loading standard libraries
+load_file("nrngui.hoc")
+load_proc("nrnmainmenu")
+
+
+//Soma
+create soma
+access soma
+soma insert hh
+soma psection()
+insert pas
+soma g_pas=0.001
+soma e_pas=-70
+
+soma nseg=1
+soma L=20
+soma diam=25
+soma Ra=30
+
+//dendrite
+create dendrite
+dendrite {
+	diam=1
+	L=500
+	nseg=20
+     Ra=30
+     insert pas
+     g_pas=0.0001
+     e_pas=-70
+}
+
+connect dendrite(0), soma(1)
+
+forall v_init=-65.8
+
+
+
+// parameters inside NetStim objects
+
+//AMPA
+excSrcInt = 20 //interval between spikes
+excSrcNum = 10 //number of spikes 
+excSrcStart = 100 //delay 
+excSrcNoise = 0 //Noise
+
+//GABAB
+inhSrcInt = 20
+inhSrcNum = 10
+inhSrcStart = 100
+inhSrcNoise = 0
+
+//GABAA
+silSrcInt = 20
+silSrcNum = 10
+silSrcStart = 100
+silSrcNoise = 0
+
+
+//Excitatory synapse AMPA
+
+
+
+
+objref synapseExcitatory
+dendrite synapseExcitatory=new Exp2Syn(0.5) 
+synapseExcitatory.tau1=1 //synaptic time constant (ms)
+synapseExcitatory.tau2=3 //synaptic time constant (ms)
+synapseExcitatory.e=0 //synaptic reversal potential (mV)
+
+
+objref spikeSourceExcitatory
+dendrite spikeSourceExcitatory = new NetStim(0.5) 
+spikeSourceExcitatory.interval=excSrcInt //ms (mean) time between spikes
+spikeSourceExcitatory.number=excSrcNum //(average) number of spikes
+spikeSourceExcitatory.start=excSrcStart //ms (mean) start time of the first spike
+spikeSourceExcitatory.noise=excSrcNoise //  range 0 to 1 - fractional randomness
+                    		// 0 - deterministic, 1- intervals decaying 
+                    		// Poisson distribution
+
+
+objref connectionExcitatory
+thresh=10 //not important when connection is from NetStim
+delay=0.0 //delay of the connection
+weightAMPA=0.001 //connection strength in muS, maximal conductance
+connectionExcitatory=new NetCon(spikeSourceExcitatory,synapseExcitatory,thresh,delay,weightAMPA)
+
+//Inhibitory synapse GABAB
+
+objref synapseInhibitory
+dendrite synapseInhibitory=new Exp2Syn(0.5) 
+
+synapseInhibitory.tau1=1 //synaptic time constant (ms)
+synapseInhibitory.tau2=50 //synaptic time constant (ms)
+synapseInhibitory.e=-90 //synaptic reversal potential (mV)
+
+objref spikeSourceInhibitory
+dendrite spikeSourceInhibitory = new NetStim(0.5) 
+spikeSourceInhibitory.interval=inhSrcInt //ms (mean) time between spikes
+spikeSourceInhibitory.number=inhSrcNum  //(average) number of spikes
+spikeSourceInhibitory.start=inhSrcStart  //ms (mean) start time of the first spike
+spikeSourceInhibitory.noise=inhSrcNoise  //  range 0 to 1 - fractional randomness
+                    		// 0 - deterministic, 1- intervals decaying 
+                    		// Poisson distribution
+
+
+			
+
+objref connectionInhibitory
+thresh=10 //not important when connection is from NetStim
+delay=0.0 //delay of the connection
+weightGABAB=0//0.01 //connection strength in muS, maximal conductance
+connectionInhibitory=new NetCon(spikeSourceInhibitory, synapseInhibitory,thresh,delay,weightGABAB)
+
+//Inhibitory 'silent' synapse GABAA
+
+objref synapseSilent
+dendrite synapseSilent=new Exp2Syn(0.5) 
+
+synapseSilent.tau1=1 //synaptic time constant (ms)
+synapseSilent.tau2=3 //synaptic time constant (ms)
+synapseSilent.e=-68 //synaptic reversal potential (mV)
+
+objref spikeSourceSilent
+dendrite spikeSourceSilent = new NetStim(0.5) 
+spikeSourceSilent.interval=silSrcInt //ms (mean) time between spikes
+spikeSourceSilent.number=silSrcNum //(average) number of spikes
+spikeSourceSilent.start=silSrcStart //ms (mean) start time of the first spike
+spikeSourceSilent.noise=silSrcNoise //  range 0 to 1 - fractional randomness
+                    		// 0 - deterministic, 1- intervals decaying 
+                    		// Poisson distribution
+
+objref connectionSilent
+thresh=10 //not important when connection is from NetStim
+delay=0.0 //delay of the connection
+weightGABAA=0//10 //connection strength in muS, maximal conductance
+connectionSilent=new NetCon(spikeSourceSilent, synapseSilent,thresh,delay,weightGABAA)
+
+// dummy variables to set parameters inside synapse/NetCon objects
+
+excSynW = 0.001
+
+inhSynW = 0.000
+
+silSynW = 0.000
+
+proc UpdateSynAll()	{
+
+	connectionExcitatory.weight = excSynW
+
+	connectionInhibitory.weight = inhSynW
+
+	connectionSilent.weight = silSynW
+}
+
+
+proc UpdateSrcAll()	{
+
+	spikeSourceExcitatory.interval = excSrcInt
+	spikeSourceExcitatory.number = excSrcNum
+	spikeSourceExcitatory.start = excSrcStart
+	spikeSourceExcitatory.noise = excSrcNoise
+
+	spikeSourceInhibitory.interval = inhSrcInt
+	spikeSourceInhibitory.number = inhSrcNum
+	spikeSourceInhibitory.start = inhSrcStart
+	spikeSourceInhibitory.noise = inhSrcNoise
+
+	spikeSourceSilent.interval = silSrcInt
+	spikeSourceSilent.number = silSrcNum
+	spikeSourceSilent.start = silSrcStart
+	spikeSourceSilent.noise = silSrcNoise
+
+}	
+
+proc synapseGUI() {
+	xpanel("Synaptix weights")
+
+	xlabel("Excitatory AMPA synapse")
+	xpvalue("Weight", &excSynW, 1, "UpdateSynAll()")
+	
+	xlabel("Inhibitory GABAB synapse")
+	xpvalue("Weight", &inhSynW, 1, "UpdateSynAll()")
+
+	xlabel("Inhibitory 'Silent' GABAA synapse")
+    xpvalue("Weight", &silSynW, 1, "UpdateSynAll()")
+	
+	xpanel()
+}
+
+proc stimGUI() {
+	xpanel("Stimulus parameters")
+
+	xlabel("Excitatory AMPA synapse")
+	xpvalue("Interval between spikes (ms)", &excSrcInt, 1, "UpdateSrcAll()")
+	xpvalue("Number of spikes", &excSrcNum, 1, "UpdateSrcAll()")
+	xpvalue("First spike fires at (ms)", &excSrcStart, 1, "UpdateSrcAll()")
+	xpvalue("Noise [0-1]", &excSrcNoise, 1, "UpdateSrcAll()")
+
+	xlabel("Inhibitory GABAB synapse")
+	xpvalue("Interval between spikes (ms)", &inhSrcInt, 1, "UpdateSrcAll()")
+	xpvalue("Number of spikes", &inhSrcNum, 1, "UpdateSrcAll()")
+	xpvalue("First spike fires at (ms)", &inhSrcStart, 1, "UpdateSrcAll()")
+	xpvalue("Noise [0-1]", &inhSrcNoise, 1, "UpdateSrcAll()")
+
+	xlabel("Inhibitory 'Silent' GABAA synapse")
+	xpvalue("Interval between spikes (ms)", &silSrcInt, 1, "UpdateSrcAll()")
+	xpvalue("Number of spikes", &silSrcNum, 1, "UpdateSrcAll()")
+	xpvalue("First spike fires at (ms)", &silSrcStart, 1, "UpdateSrcAll()")
+	xpvalue("Noise [0-1]", &silSrcNoise, 1, "UpdateSrcAll()")
+	
+
+	xpanel()
+}
+
+//Time of simulation
+tstop=300
+
+
+//load GUIs
+
+synapseGUI()
+stimGUI()
+
+xopen("sesSynapses.ses")
+
+
+
+
+
+
+
+
+
+
+

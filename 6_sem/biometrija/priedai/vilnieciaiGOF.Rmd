@@ -1,0 +1,54 @@
+---
+title: "Suderinamumo testas chi-kvadrat"
+author: "RE"
+date: '2017 m gegužė 10 d '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Testas
+
+\[T=4.22.\]
+
+Šią reikšmę galima apskaičiuoti naudojant testo formulę
+
+```{r}
+ObsExp <- ((c(84,96,20)-200*c(0.38,0.47,0.15))^2)/(200*c(0.38,0.47,0.15))
+sum(ObsExp)
+```
+
+arba, pavyzdžiui, R funkciją **chisq.test** (žr. teksto pabaigoje) kartu su p-reikšme.
+
+\(\chi_{2}^2\) tankio grafikas:
+
+```{r}
+library(RcmdrMisc)
+local({
+  .x <- seq(0.001, 15.202, length.out=1000)  
+  plotDistr(.x, dchisq(.x, df=2), cdf=FALSE, xlab="x", ylab="Density", 
+  main=paste("ChiSquared Distribution:  Degrees of freedom=2"))
+})
+```
+
+P-reikšmė:
+
+```{r}
+pchisq(c(4.22), df=2, lower.tail=FALSE)
+```
+
+Tegu reikšmingumo lygmuo \(\alpha=0.1\). Kritinė sitis yra dešinę nuo
+
+
+```{r}
+qchisq(c(0.1), df=2, lower.tail=FALSE)
+```
+
+Naudojant *R* funkciją galime rasti p-reikšmę:
+
+```{r}
+chisq.test(c(84,96,20),p=c(0.38,0.47,0.15))
+```
+

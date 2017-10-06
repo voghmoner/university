@@ -1,0 +1,49 @@
+---
+title: "Contingency Tabless"
+author: "RE"
+date: "2017.05.09"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Duomenys: kūdikių svoris
+
+
+```{r}
+bw <- read.table("E:/Biometrika2017/birthwt.txt", header=TRUE, sep="", na.strings="NA", dec=".", strip.white=TRUE)
+bw <- within(bw, {lowf <- as.factor(low)})
+bw <- within(bw, {smokef <- as.factor(smoke)})
+summary(bw$lowf)
+summary(bw$smokef)
+```
+
+```{r}
+save("bw", file="E:/Biometrika2017/bw.RData")
+```
+
+```{r}
+library(abind, pos=15)
+local({
+  .Table <- xtabs(~lowf+smokef, data=bw)
+  cat("\nFrequency table:\n")
+  print(.Table)
+  .Test <- chisq.test(.Table, correct=FALSE)
+  print(.Test)
+})
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

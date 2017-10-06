@@ -1,0 +1,96 @@
+#!/usr/bin/perl -w
+
+# Programą, kuri suranda PDBx faile pateiktų atomų
+# „chiralinį tūrį“.
+
+# phi ir psi kampus ir juos išveda į standartinę išvestį.
+
+# Programos paleidimas: pdbchirality-THR-CB 1zyx.pdb [2zyx.pdb ...]
+# Jeigu skaitoma iš standartinės įvesties:
+# cat xxxx.cif | ./pdbchirality-THR-CB
+
+use strict;
+use warnings;
+
+
+my @a_ = ();
+my @b_ = ();
+my @c_ = ();
+my @d_ = ();
+my $chiral_volume = 0;
+my $file_name = "";
+my $ca = "";
+my $cb = "";
+my $og1 = "";
+my $cg2 = "";
+my $result = 0;
+my $line_nr = 0;
+my $current_file = "";
+my $working = 0;
+my $currentId = '$Id: pdbchirality-THR-CB 1291 2017-05-21 17:17:17Z Gintvilė_Bergerytė $';
+print "# ".$currentId, "\n";
+while(<>) {
+	$file_name = $ARGV;
+	$line_nr += 1;
+	if(m/^ATOM/) {
+		my @components = split /\s+/, $_;
+		my $amino_acid = $components[5];
+		my @coordinates = @components[10..12];
+		my $atom = $components[3];
+		my $chain = $components[6];
+		my $number = $components[8];
+		if ($amino_acid eq "THR"){
+			# print $_;
+			$working = 1;
+			$current_file = $file_name;
+			if($atom eq "CA"){
+				$ca = $atom;
+				@a_ = @coordinates;
+			}
+			elsif($atom eq "CB"){
+				$cb = $atom;
+				@d_ = @coordinates;
+			}
+			elsif($atom eq "OG1"){
+				$og1 = $atom;
+				@b_ = @coordinates;
+			}
+			elsif($atom eq "CG2"){
+				$cg2 = $atom;
+				@c_ = @coordinates;
+				if(@a_ and @b_ and @c_ and @d_){
+					my @a = ($a_[0]-$d_[0],$a_[1]-$d_[1],$a_[2]-$d_[2]);
+					my @b = ($b_[0]-$d_[0],$b_[1]-$d_[1],$b_[2]-$d_[2]);
+					my @c = ($c_[0]-$d_[0],$c_[1]-$d_[1],$c_[2]-$d_[2]);
+					$chiral_volume = 1/6*($a[0]*$b[1]*$c[2] + $a[2]*$b[0]*$c[1] +
+													 $a[1]*$b[2]*$c[0] -($a[2]*$b[1]*$c[0] +
+													 $a[0]*$b[2]*$c[1]+$a[1]*$b[0]*$c[2]));
+					$result = sprintf("%.3f", $chiral_volume);
+					print "CHIRALITY ".$result." ".$file_name." ".$chain." ".$amino_acid.
+								" ".$number." CB ".$og1." ".$cg2." ".$ca."\n";
+				}
+				else{
+					warn("There are missing atoms in ".$amino_acid." in file: ".
+																	$file_name." at line: ".$line_nr."!");
+					print "CHIRALITY "."-"." ".$file_name." ".$chain." ".$amino_acid." ".
+					$number." CB ".$og1." ".$cg2." ".$ca."\n";
+				}
+			}
+
+		}
+		else{
+			@a_ = ();
+			@b_ = ();
+			@c_ = ();
+			@d_ = ();
+
+		}
+	}
+	if(eof and ($working == 0)){
+		die("There are no THR atoms!");
+	}
+	if ($current_file ne $file_name){
+		$line_nr = 0;
+		$working = 0;
+	}
+}

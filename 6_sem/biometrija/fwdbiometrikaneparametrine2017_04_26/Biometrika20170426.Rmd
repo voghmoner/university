@@ -1,0 +1,36 @@
+---
+title: "Neparametrinė statistika 1"
+author: "Rimantas Eidukevicius"
+date: "April 26, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Ženklų testas
+
+Pavyzdys iš  <http://www.r-tutor.com/elementary-statistics/non-parametric-methods/sign-test>.
+
+\(H_{0}\) apie sėkmės ir nesėkmės tikimybių lygybę. Atsitiktinai atrinkta 18 dalyvių, kurie ragauja du gėrimus, vieną iš jų geriau vertina 5, 13 - kitą gėrimą. Alternatyva \(H_{1}\) yra apie vieno ar kito gėrimo geresnį vertinimą. Pasirenkamas reikšmingumo lygmuo, matematiškai užrašomos hipotezės ir ieškoma p-reikšmė naudojant binominį testą:
+
+```{r}
+binom.test(5, 18)
+names(binom.test(5, 18))
+binom.test(5, 18)$p.value
+```
+
+Apskaičiuota p-reikšmė=`r binom.test(5, 18)$p.value`, todėl ???
+
+
+Pasinaudosime testu SIGN.test (R funkcijos aprašymą žr. <https://www.rdocumentation.org/packages/BSDA/versions/1.01/topics/SIGN.test>).
+
+```{r}
+library(BSDA)
+x <- c(7.8, 6.6, 6.5, 7.4, 7.3, 7., 6.4, 7.1, 6.7, 7.6, 6.8)
+SIGN.test(x,md=6.5)
+```
+
+Čia \(x\) - duomenų vektorius, \(md\) - nulinės hipotezės mediana.
+

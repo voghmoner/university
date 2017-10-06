@@ -1,0 +1,106 @@
+---
+title: "Biometrika 2017.04.19"
+author: "Rimantas Eidukevicius"
+date: "April 18, 2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Porinė imtis, t-testas
+
+Duomenų lentelėje du kintamieji: *V1* ir *V2*, pvz., pinigai kairiojoje ir dešiniojoje to pačio švarko kišenėse.
+
+\(H_{0}:\mbox{ vidutiniškai pinigų abiejose kišenėse vienodai},\)
+\(H_{1}:\ \ldots\mbox{ skirtingai}.\)
+
+
+```{r}
+load("~/MIF/Destymas/2017Pavasaris/Biometrika/PriklImtys.RData")
+print(PriklImtys)
+with(PriklImtys, (t.test(V1, V2, alternative='two.sided', 
+conf.level=.9, paired=TRUE)))
+```
+
+Sukeiskime kintamuosius vietomis:
+
+```{r}
+with(PriklImtys, (t.test(V2, V1, alternative='two.sided', 
+conf.level=.9, paired=TRUE)))
+```
+
+Palyginti pasiklaitiniuosius intervalus, pokyčio vidurkius.
+
+## Dvi nepriklausomos imtys, dispersijų ir vidurkių palyginimas
+
+
+Duomenys:
+
+```{r}
+bw <- read.table("C:/Users/rimas/OneDrive/Documents/MIF/Destymas/2017Pavasaris/Biometrika/birthwt.txt",
+   header=TRUE, sep="", na.strings="NA", dec=".", strip.white=TRUE)
+head(bw)
+bw <- within(bw, {smokef <- factor(smoke, labels=c('NoSmoke','Smoke'))})
+bw <- within(bw, {racef <- as.factor(race)})
+head(bw)
+summary(bw)
+```
+
+Palyginkime rūkančių ir nerūkančių mamų amžiaus dipersijas (alternatyva dvipusė):
+
+```{r}
+with(bw, tapply(age, smokef,  var, na.rm=TRUE))
+var.test(age ~ smokef, alternative='two.sided', conf.level=.95, data=bw)
+```
+
+Nulinės hipotezės apie dispersijų kygybę neatmetame (kodėl neminimas reikšmingumo lygnuo?), todėl lyginsime amžiaus vidurkius  (alternatyva dvipusė) su prielaida apie dispersijų lygybę. Kartais patariama šia prielaida aplamai nesinaudoti.
+
+```{r}
+t.test(age~smokef, alternative='two.sided', conf.level=.95, var.equal=TRUE, data=bw)
+```
+
+## Dispersinė analizė (vieno faktoriaus): mamų amžius grupėse pagal rasę
+
+Hipotezės apie dispersijų lygybę tikrinimas:
+
+```{r}
+library(car)
+with(bw, tapply(age, racef, var, na.rm=TRUE))
+leveneTest(age ~ racef, data=bw, center="mean")
+```
+
+Prielaida apie dispersijų lygybę neatmetama.
+
+```{r}
+AnovaModel.1 <- aov(age ~ smokef, data=bw)
+summary(AnovaModel.1)
+library(RcmdrMisc)
+with(bw, numSummary(age, groups=smokef, statistics=c("mean", "sd")))
+```
+
+Paaiškinantis grafikas:
+
+```{r}
+with(bw, plotMeans(age, racef, error.bars="conf.int", level=0.95))
+```
+
+##  Dvifaktorinė dispersinė analizė
+
+```{r}
+AnovaMode2 <- lm(age ~ racef*smokef, data=bw)
+Anova(AnovaMode2)
+```
+
+```{r}
+with(bw, (tapply(age, list(racef, smokef), sd, na.rm=TRUE))) 
+```
+
+```{r}
+ xtabs(~ racef + smokef, data=bw)
+```
+
+Pakartoti skaičiavimus su kūdikių svoriu, rašyti trumpas ataskaitas.

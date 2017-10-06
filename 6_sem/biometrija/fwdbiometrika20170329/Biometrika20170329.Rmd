@@ -1,0 +1,55 @@
+---
+title: 'Biometrika: hipotezÃ„â€”s'
+author: "Rimantas Eidukevicius"
+date: "March 29, 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Duomenys
+
+```{r}
+bw <- read.table("C:/Users/rimas/OneDrive/Documents/MIF/Destymas/2017Pavasaris/Biometrika/birthwt.txt",
+   header=TRUE, sep="", na.strings="NA", dec=".", strip.white=TRUE)
+head(bw)
+bw <- within(bw, {smokef <- factor(smoke, labels=c('NoSmoke','Smoke'))})
+bw <- within(bw, {racef <- as.factor(race)})
+head(bw)
+summary(bw)
+```
+
+## Vidurkių grupėse grafikas
+
+
+```{r}
+library(RcmdrMisc)
+with(bw, plotMeans(bwt, racef, smokef, error.bars="conf.int", level=0.95))
+```
+
+## Hipotezės vienai normaliai imčiai apie vidurkį
+
+Dvipusė alternatyva:
+
+\(H_{0}:\, \mu=3000,\ H_{1}:\, \mu\ne 3000:\)
+
+```{r}
+with(bw, (t.test(bwt, alternative='two.sided', mu=3000, conf.level=.95)))
+```
+
+Vienpusės alternatyvos:
+
+```{r}
+with(bw, (t.test(bwt, alternative='less', mu=3000, conf.level=.95)))
+with(bw, (t.test(bwt, alternative='greater', mu=3000, conf.level=.95)))
+```
+
+Grafikas:
+
+```{r}
+Boxplot( ~ bwt, data=bw, id.method="y")
+```

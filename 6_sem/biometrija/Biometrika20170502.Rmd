@@ -1,0 +1,59 @@
+---
+title: "Neparametrinė statistika 2"
+author: "Rimantas Eidukevicius"
+date: "May 2, 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Duomenys: porinė imtis
+
+
+```{r}
+x <- c(11,13,17,19,14)
+y <- c(12,15,15,16,20)
+xy <- data.frame(x,y)
+print(xy)
+```
+
+Neparametrinis testas:
+
+```{r}
+with(xy, wilcox.test(x, y, alternative='two.sided', exact=TRUE, paired=TRUE))
+```
+
+## Duomenys:  kūdikių svoris
+
+\texttt{birthwt.txt}
+
+Atspausdinta tik skaičiavimų rezultatai be **R** komandų. 
+ 
+
+```{r echo=FALSE}
+bw <- read.table("C:/Users/rimas/OneDrive/Documents/MIF/Destymas/2017Pavasaris/Biometrika/birthwt.txt",
+   header=TRUE, sep="", na.strings="NA", dec=".", strip.white=TRUE)
+head(bw)
+bw <- within(bw, {smokef <- factor(smoke, labels=c('NoSmoke','Smoke'))})
+bw <- within(bw, {racef <- as.factor(race)})
+head(bw)
+#summary(bw)
+```
+
+```{r}
+with(bw, tapply(age, smokef, median, na.rm=TRUE))
+```
+
+```{r}
+wilcox.test(age ~ smokef, alternative="two.sided", data=bw)
+```
+
+```{r}
+library(RcmdrMisc)
+with(bw, plotMeans(age, smokef, error.bars="sd"))
+```
+

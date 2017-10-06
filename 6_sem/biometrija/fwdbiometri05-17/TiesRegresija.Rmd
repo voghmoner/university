@@ -1,0 +1,76 @@
+---
+title: "Tiesine regresija"
+author: "RE"
+date: "16 May 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Tiesinė regresija: pavyzdys
+
+\[y_{i}=\beta_{0}+\beta_{1}x_{i}+\epsilon_{i},\ i=1,\ldots,n.\]
+
+"Betos" - nežinomi parametrai:
+
+\[\min_{\beta_{0},\beta_{1}}\sum_{i=1}^{n}(y_{i}-(\beta_{0}+\beta_{1}x_{i}))^2.\]
+
+
+
+```{r}
+y <- c(3, 5, 7)
+x <- c(1, 2, 3)
+plot(x,y)
+```
+
+Nuostoliai:
+
+```{r}
+least.squares <- function(p, x, y) {
+  sum((y - (p[1] + p[2] * x))^2)}
+```
+
+"Blogas" pasirinkimas
+
+```{r}
+start.searching.here <- c(intercept = 0, slope = 0)
+least.squares(start.searching.here, x, y)
+```
+
+Optimizavimas:
+
+```{r}
+optm <- optim(par = start.searching.here, fn = least.squares, 
+      x = x, y = y)
+optm$par
+summary(optm)
+```
+
+Kitaip rasime parametrus (tikimybinė interpretacija):
+
+```{r}
+mean(y) - cov(x,y) / var(x) * mean(x)   # Beta 0
+cov(x,y) / var(x)                       # Beta 1
+```
+
+Svarbūs požimių $x$ ir $y$ matavimo vienetai (metrai, coliai, tonos ir t.t.). Tarkime, kad $x_{i+1}=x_{i}+1$. Tegu triukšmas $\epsilon$ nedalyvauja, t.y., skaičiuojame po vidurkinimo ($E(\epsilon_{i})=0$). Rasime skirtumą :
+
+\[y_{i+1}-y{i}=(\beta_{0}+\beta_{1}(x_{i}+1)-(\beta_{0}+\beta_{1}x_{i})=\beta_{1}.\]
+
+Turime parametro $\beta_{1}$ interpretaciją.
+
+Rasti jo interpretaciją po transformacijos: \(z_{i}=x_{i}-\bar{x},\ y_{i}=\beta_{0}+\beta_{1}z_{i}+\epsilon_{i},\ i=1,\ldots,n\)
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

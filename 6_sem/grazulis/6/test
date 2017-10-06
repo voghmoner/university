@@ -1,0 +1,11 @@
+#!/bin/bash
+
+./pdbchirality-THR-CB data/*.cif | diff outputs/run_log.txt - > outputs/run_log.diff
+
+# Running from standart input:
+if [ "$1" != "" ]; then 
+	for file in "$@"
+	do
+		cat "$file" | ./pdbchirality-THR-CB | diff outputs/run_log_stdin.txt - > outputs/run_log_stdin.diff
+	done
+fi

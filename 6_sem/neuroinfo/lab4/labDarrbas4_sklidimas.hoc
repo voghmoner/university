@@ -1,0 +1,110 @@
+
+//Loading standard libraries
+load_file("nrngui.hoc")
+load_proc("nrnmainmenu")
+
+//loading cellular geometry of
+//a cortical layer 6 pyramidal neuron
+
+print "  loading geometry of neuron from file '51-2a_low.geo'"
+if (xopen("51-2a_low.geo")) {}
+
+//insert passive channels
+forall insert pas
+
+//soma
+soma {
+nseg=2
+L=1
+diam=1
+g_pas=0.001
+v_init=-70 
+}
+
+create axon
+axon{
+   L=1000 
+   nseg=20
+   diam=0.1
+   insert hh
+   gnabar_hh=1.2
+   gkbar_hh=0.36
+   gl_hh=0.003
+   el_hh = -70.0
+
+     
+}
+
+connect soma(1), axon(0)
+
+
+//Create myelin and nodes
+
+create myelin[10], node[10]
+
+for i=0, 9 {
+   myelin[i].L=100 //
+   myelin[i] insert pas
+   myelin[i].nseg=4
+   myelin[i].cm=0.005//decrease in C
+   myelin[i].diam=0.1 
+   myelin[i].g_pas=5e-6 //decrease in g
+
+   node[i].L=0.5
+   node[i].nseg=1
+   node[i] insert hh
+   node[i].diam=0.1
+   node[i].cm=1
+   node[i].gnabar_hh=1.2
+   node[i].gkbar_hh=0.36
+   node[i].gl_hh=0.003
+   node[i].el_hh = -70.0
+
+
+
+}
+
+//connecting axon-myelin-node-myelin-node
+
+connect axon(1), myelin[0](0)
+
+
+for i=0,9 {
+   connect myelin[i](1), node[i](0)
+}
+
+for i=0,8 {
+   connect node[i](1), myelin[i+1](0)
+}
+
+
+//---------------------------------------------------
+//Current source
+//---------------------------------------------------
+
+//Current source in dendrite dend5[29]
+objref stim
+dend5[29] stim =new IClamp(0.5)
+stim.amp=0.5//nA
+stim.del=10 //ms
+stim.dur=4 //ms
+
+
+//Current source in soma 
+//objref stim
+//soma stim=new IClamp(0.5)
+//stim.amp=1//nA
+//stim.del=10 //ms
+//stim.dur=4 //ms
+
+access soma
+tstop=50
+v_init=-70
+
+//******************************************
+//Load my windows
+xopen("labDarbas4.ses") 
+//******************************************
+
+
+run()

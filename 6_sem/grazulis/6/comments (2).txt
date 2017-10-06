@@ -1,0 +1,174 @@
+Checking 'Gintvilė_Bergerytė/Bergeryte6_2.zip'
+Archive:  /home/saulius/writings/paskaitos/VU/bioinformatika-III/praktikos-darbai/06-užduotis/Gintvilė_Bergerytė/Bergeryte6_2.zip
+   creating: data/
+   creating: outputs/
+  inflating: pdbchirality-THR-CB     
+  inflating: run                     
+  inflating: test                    
+  inflating: data/1zyx.cif           
+  inflating: data/5fw7.cif           
+  inflating: data/5mp9.cif           
+  inflating: data/5mut.cif           
+  inflating: outputs/run_log.txt     
+  inflating: README                  
+.
+├── data
+│   ├── 1zyx.cif
+│   ├── 5fw7.cif
+│   ├── 5mp9.cif
+│   └── 5mut.cif
+├── outputs
+│   └── run_log.txt
+├── pdbchirality-THR-CB
+├── README
+├── run
+└── test
+
+2 directories, 9 files
+
+-- Už išsamią dokumentaciją README faile skiriu papildomą balą :) (+10 balų);
+
+-- Jūsų programa, deja, panašu kad skaičiuoja neteisingai. Pakeitus
+   koordinates į (žr. prisegtus duomenų blokus) Jūsų programos
+   išvestis nepasikeičia; be to, ji yra įtartinai didelė:
+
+saulius@kolibris unpack/ $ ./pdbchirality-THR-CB 5mp9_-THR17.cif
+# $Id: pdbchirality-THR-CB 1291 2017-05-21 17:17:17Z Gintvilė_Bergerytė $
+CHIRALITY 2007.096 5mp9_-THR17.cif A THR 17 CB OG1 CG2 CA
+
+saulius@kolibris unpack/ $ ./pdbchirality-THR-CB 5mp9_THR17.cif
+# $Id: pdbchirality-THR-CB 1291 2017-05-21 17:17:17Z Gintvilė_Bergerytė $
+CHIRALITY 2007.096 5mp9_THR17.cif A THR 17 CB OG1 CG2 CA
+
+   Išsiaiškinkite, kodėl taip vyksta, patikrinkite tūrius ir
+   pataisykite. (-20 balų);
+
+   !!! Pastaba: skaičiuojant chiralinį tūrį, nereikia imti modulio --
+       juk būtent tūrio ženklo skirtumai ir rodo mums, kad viena
+       liekana yra kitos veidrodinis atspindys!
+
+   !!! Pastaba2: skaičiuodama tūrį, einate teisingu keliu, bet paėmėte
+       ne tuos vektorius. Reikia rasti *keturis* atomus ir paimti jų
+       koordinačių skirtumus (sugalvokite, kokius :)
+
+-- [AUTO;STYLE;Id: do-check-line-lengths 3410 2017-04-17 16:26:25Z saulius ]
+   Jūsų faile "./test" yra per ilgų eilučių,
+   jų skaičius: 2.
+
+   Ilgesnės už 80 simbolių gali būti tik Subversijos Id ir URL eilutės.
+   Už kiekvieną nepagrįstai per ilgą eilutę atimami 2 balai,
+   taigi viso (-4 balai/-ų).
+   Žr. (išvesta iki 5 per ilgų eilučių):
+
+./pdbchirality-THR-CB data/*.cif | diff outputs/run_log.txt - > outputs/run_log.diff
+		cat "$file" | ./pdbchirality-THR-CB | diff outputs/run_log_stdin.txt - > outputs/run_log_stdin.diff
+
+-- [AUTO;STYLE;Id: do-check-line-lengths 3410 2017-04-17 16:26:25Z saulius ]
+   Jūsų faile "./pdbchirality-THR-CB" yra per ilgų eilučių,
+   jų skaičius: 3.
+
+   Ilgesnės už 80 simbolių gali būti tik Subversijos Id ir URL eilutės.
+   Už kiekvieną nepagrįstai per ilgą eilutę atimami 2 balai,
+   taigi viso (-6 balai/-ų).
+   Žr. (išvesta iki 5 per ilgų eilučių):
+
+# Kadangi programa apdoroja tik gyvojoje gamtoje sutinkamą optinį izomerą (treoniną),
+					$chiral_volume = abs($a[0]*$b[1]*$c[2] + $a[2]*$b[0]*$c[1] + $a[1]*$b[2]*$c[0] - 
+					warn("There are missing atoms in ".$amino_acid." in file: ".$file_name." at line: ".$line_nr."!");
+
+-- [AUTO;INTERFACE;Id: do-check-makefile 3430 2017-04-17 19:47:46Z saulius ]
+   Jūsų projekto direktorija turi turėti lygiai vieną failą arba
+   simbolinę nuorodą vardu 'Makefile', 'makefile' arba
+   'GNUmakefile'. Pateikite atitinkamą Makefile'ą su testavimo
+   sistema. (-10 balų);
+
+-- [AUTO;SUBVERSION;Id: do-check-svn-wc 3580 2017-05-24 08:48:37Z saulius ]
+   Turite pateikti vertinimui Subversijos darbinę kopiją su .svn direktorija
+   (-10 balų);
+
+-- [AUTO;TESTS;Id: do-check-test-directories 3459 2017-04-25 06:41:25Z saulius ]
+   Jūsų projektas turi turėti vieną šių direktorijų testų atvejams talpinti:
+   cases atvejai test tests testai
+   (-10 balų);
+
+-- Jūsų pateikta programa nėra vykdoma: pataisykite (-5 balai):
+
+saulius@kolibris unpack/ $ ./test 
+./test: line 3: ./pdbchirality-THR-CB: Permission denied
+
+-- Net jei naudotumėte testavimui skriptą 'test', vieno testo Jūsų
+   programai gerokai per mažai (-5 balai);
+
+# Mano testavimui naudoti duomenų blokai:
+
+data_5mp9_-THR17
+loop_
+_atom_site.group_PDB 
+_atom_site.id 
+_atom_site.type_symbol 
+_atom_site.label_atom_id 
+_atom_site.label_alt_id 
+_atom_site.label_comp_id 
+_atom_site.label_asym_id 
+_atom_site.label_entity_id 
+_atom_site.label_seq_id 
+_atom_site.pdbx_PDB_ins_code 
+_atom_site.Cartn_x 
+_atom_site.Cartn_y 
+_atom_site.Cartn_z 
+_atom_site.occupancy 
+_atom_site.B_iso_or_equiv 
+_atom_site.Cartn_x_esd 
+_atom_site.Cartn_y_esd 
+_atom_site.Cartn_z_esd 
+_atom_site.occupancy_esd 
+_atom_site.B_iso_or_equiv_esd 
+_atom_site.pdbx_formal_charge 
+_atom_site.auth_seq_id 
+_atom_site.auth_comp_id 
+_atom_site.auth_asym_id 
+_atom_site.auth_atom_id 
+_atom_site.pdbx_PDB_model_num 
+ATOM 54 N N . THR A 1 17 ? 328.329 249.641 271.42 1.00 1.00 ? ? ? ? ? ? 8 THR a N 1
+ATOM 55 C CA . THR A 1 17 ? 328.099 248.213 271.649 1.00 1.00 ? ? ? ? ? ? 8 THR a CA 1
+ATOM 56 C C . THR A 1 17 ? 327.949 247.492 270.31 1.00 1.00 ? ? ? ? ? ? 8 THR a C 1
+ATOM 57 O O . THR A 1 17 ? 326.858 247.337 269.768 1.00 1.00 ? ? ? ? ? ? 8 THR a O 1
+ATOM 58 C CB . THR A 1 17 ? 326.894 247.999 272.56 1.00 1.00 ? ? ? ? ? ? 8 THR a CB 1
+ATOM 59 O OG1 . THR A 1 17 ? 325.878 248.97 272.269 1.00 1.00 ? ? ? ? ? ? 8 THR a OG1 1
+ATOM 60 C CG2 . THR A 1 17 ? 327.307 248.133 274.027 1.00 1.00 ? ? ? ? ? ? 8 THR a CG2 1
+
+data_5mp9_THR17
+loop_
+_atom_site.group_PDB 
+_atom_site.id 
+_atom_site.type_symbol 
+_atom_site.label_atom_id 
+_atom_site.label_alt_id 
+_atom_site.label_comp_id 
+_atom_site.label_asym_id 
+_atom_site.label_entity_id 
+_atom_site.label_seq_id 
+_atom_site.pdbx_PDB_ins_code 
+_atom_site.Cartn_x 
+_atom_site.Cartn_y 
+_atom_site.Cartn_z 
+_atom_site.occupancy 
+_atom_site.B_iso_or_equiv 
+_atom_site.Cartn_x_esd 
+_atom_site.Cartn_y_esd 
+_atom_site.Cartn_z_esd 
+_atom_site.occupancy_esd 
+_atom_site.B_iso_or_equiv_esd 
+_atom_site.pdbx_formal_charge 
+_atom_site.auth_seq_id 
+_atom_site.auth_comp_id 
+_atom_site.auth_asym_id 
+_atom_site.auth_atom_id 
+_atom_site.pdbx_PDB_model_num 
+ATOM   54    N  N     . THR A  1  17  ? -328.329 -249.641 -271.420 1.00 1.00 ? ? ? ? ? ? 8   THR a N     1 
+ATOM   55    C  CA    . THR A  1  17  ? -328.099 -248.213 -271.649 1.00 1.00 ? ? ? ? ? ? 8   THR a CA    1 
+ATOM   56    C  C     . THR A  1  17  ? -327.949 -247.492 -270.310 1.00 1.00 ? ? ? ? ? ? 8   THR a C     1 
+ATOM   57    O  O     . THR A  1  17  ? -326.858 -247.337 -269.768 1.00 1.00 ? ? ? ? ? ? 8   THR a O     1 
+ATOM   58    C  CB    . THR A  1  17  ? -326.894 -247.999 -272.560 1.00 1.00 ? ? ? ? ? ? 8   THR a CB    1 
+ATOM   59    O  OG1   . THR A  1  17  ? -325.878 -248.970 -272.269 1.00 1.00 ? ? ? ? ? ? 8   THR a OG1   1 
+ATOM   60    C  CG2   . THR A  1  17  ? -327.307 -248.133 -274.027 1.00 1.00 ? ? ? ? ? ? 8   THR a CG2   1 

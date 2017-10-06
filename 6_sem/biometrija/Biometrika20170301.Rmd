@@ -1,0 +1,97 @@
+---
+title: "Biometrika 2017.03.01"
+author: "Rimantas Eidukevicius"
+date: "February 28, 2017"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Grafikai
+
+```{r aa1}
+x = seq(0, 5, by=0.25)
+head(x)
+y = (x-2)^2-1
+par(mfrow=c(2,1))
+plot(x, y)
+curve((x-2)^2-1, from=0, to=5)
+par(mfrow=c(1,1))
+```
+
+## Data frame, list
+
+```{r aa2}
+# help(women) # data file R
+head(women)
+str(women) # structure
+plot(women$height, women$weight)
+with(women, plot(weight, height))
+summary(women)
+nrow(women)
+ncol(women)
+dim(women)
+women[2:5,2]
+z = seq(2,4)
+x = seq(6, 10)
+y = seq(5, 1)
+# zx = data.frame(z, x) # klaida
+xy = data.frame(x,y)
+xy
+xz = list(a1=x, a2=z, a3=c(11,22))
+xz
+lapply(xz, max)
+vapply(xz,max, 1) # rezultatas - vektorius, 1 - sio tipo vektoriaus komponentes
+```
+
+## Scatter plot
+
+```{r aa3}
+x <- rnorm(100)
+y <- rpois(100, 20)
+head(x)
+par(mfrow=c(2,2))
+plot(x, y, main="pirmas")
+plot(x, y, pch=16, main="antras")
+plot(x, y, type="l", main="trecias")
+plot(sort(x), sort(y), main="ketvirtas")
+par(mfrow=c(1,1))
+ts.plot(x) # time series - laiko eilutes
+```
+
+## Ciklai, t.t.
+
+```{r aa4}
+# for
+n = 100
+sandauga = 1
+suma = 0
+for (i in 1:n)
+{
+sandauga = sandauga * i
+suma = suma + i
+}
+sandauga
+suma
+# if
+x = 6
+if (x < 5) y = x^2 else y = -x^2
+y
+# while Fibonaci skaiciai mazesni uz 300
+fib1 <- 1
+fib2 = 1
+fibonacci = c(fib1, fib2)
+while (fib2 < 300)
+{
+fibonacci <- c(fibonacci,fib2)  
+oldfib2 = fib2
+fib2 = fib1+fib2
+fib1 = oldfib2
+}
+fibonacci
+```

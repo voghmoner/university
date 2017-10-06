@@ -1,0 +1,51 @@
+Gintvilė Bergerytė, Bioinformatika 3 kursas
+
+Programa pdbchirality-THR-CB skaičiuoja chiralinius tūrius.
+
+Programa prašyta programavimo kalba Perl.
+
+Programos paleidimas:
+> ./pdbchirality-THR-CB data/XXXX.cif
+
+Jei skaitoma iš standartinės įvesties:
+
+> cat XXXX.cif | ./pdbchirality-THR-CB
+
+----------------------------------
+
+data/ : Visi programai reikalingi įvesties duomenys
+outputs/ : Programos testavimui sukurta direktorija, kurioje
+	 laikomi testiniai duomenys
+run : išvesties failus generuojantis skriptas (žr. toliau)
+test : testavimui sukurtas skriptas (žr. toliau)
+
+----------------------------------
+
+Testavimas:
+
+Testavimui buvo sukurtas shell skriptas: run.
+
+Paleidimas: 
+> ./run 
+arba 
+> ./run data/1abc.cif[data/2abc.cif ..]
+- Jį paleidus be komandinės eilutės argumentų, automatiškai
+programa paleidžiama su visais direktorijos data/ duomenimis.
+Išvestis yra nukreipiama į failą run_log.txt
+- Jei paleidžiama su keliais argumentais, išvestis yra nukreipiama
+į failą run_log_stdin.txt. 
+
+Pats testavimas buvo atliktas skriptu: test. Jis veikia analogiškai 
+kaip ir run.
+Paleidimas: 
+> ./test 
+arba 
+> ./test data/1abc.cif[data/2abc.cif ..]
+Gauta programos išvestis yra lyginama su outputs/ direktorijoje esančiais 
+duomenimis. Lyginama išvestis su visais direktorijoje esančiais failais
+arba iš standartinės įvesties gautais duomenimis. Failai yra su plėtiniu
+'.diff'.
+
+Šiuos failus galima panaikinti komandomis:
+> rm outputs/*.txt
+> rm outputs/*.diff
