@@ -1,0 +1,5 @@
+Gamybos_metai	Marke	Rida	Kaina
+1995	Mazda	220000	600
+2001	Ford	155000	700
+1996	Renault	230000	200
+2011	Volvo	60000	1000
