@@ -1,0 +1,74 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.trees.REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0
+Relation:     credit.data-weka.filters.unsupervised.attribute.Remove-R2,5-9,11-12,14-weka.filters.unsupervised.attribute.ReplaceMissingValues
+Instances:    690
+Attributes:   7
+              1
+              3
+              4
+              10
+              13
+              15
+              16
+Test mode:    evaluate on training data
+
+=== Classifier model (full training set) ===
+
+
+REPTree
+============
+
+10 = t
+|   15 < 520
+|   |   15 < 0.5 : + (44/5) [17/4]
+|   |   15 >= 0.5
+|   |   |   15 < 148
+|   |   |   |   15 < 12.5 : - (25/4) [13/3]
+|   |   |   |   15 >= 12.5
+|   |   |   |   |   3 < 0.25 : + (2/0) [0/0]
+|   |   |   |   |   3 >= 0.25
+|   |   |   |   |   |   3 < 1.44 : - (7/0) [7/2]
+|   |   |   |   |   |   3 >= 1.44
+|   |   |   |   |   |   |   3 < 2.42 : + (3/0) [2/2]
+|   |   |   |   |   |   |   3 >= 2.42
+|   |   |   |   |   |   |   |   3 < 8.16 : - (7/0) [5/2]
+|   |   |   |   |   |   |   |   3 >= 8.16 : + (6/2) [3/0]
+|   |   |   15 >= 148 : + (30/10) [18/3]
+|   15 >= 520 : + (73/5) [33/2]
+10 = f
+|   15 < 5150 : - (258/59) [128/31]
+|   15 >= 5150 : + (5/0) [4/1]
+
+Size of the tree : 21
+
+Time taken to build model: 0.02 seconds
+
+=== Evaluation on training set ===
+
+Time taken to test model on training data: 0 seconds
+
+=== Summary ===
+
+Correctly Classified Instances         555               80.4348 %
+Incorrectly Classified Instances       135               19.5652 %
+Kappa statistic                          0.5951
+Mean absolute error                      0.3056
+Root mean squared error                  0.3909
+Relative absolute error                 61.8734 %
+Root relative squared error             78.661  %
+Total Number of Instances              690     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.671    0.089    0.858      0.671    0.753      0.608    0.809     0.768     +
+                 0.911    0.329    0.776      0.911    0.838      0.608    0.809     0.775     -
+Weighted Avg.    0.804    0.222    0.812      0.804    0.800      0.608    0.809     0.772     
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 206 101 |   a = +
+  34 349 |   b = -
+

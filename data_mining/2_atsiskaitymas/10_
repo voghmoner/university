@@ -1,0 +1,72 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.trees.J48 -C 0.25 -M 2
+Relation:     credit.data-weka.filters.unsupervised.attribute.Remove-R2,5-9,11-12,14-weka.filters.unsupervised.attribute.ReplaceMissingValues
+Instances:    690
+Attributes:   7
+              1
+              3
+              4
+              10
+              13
+              15
+              16
+Test mode:    evaluate on training data
+
+=== Classifier model (full training set) ===
+
+J48 pruned tree
+------------------
+
+10 = t
+|   15 <= 210
+|   |   15 <= 0: + (61.0/9.0)
+|   |   15 > 0: - (91.0/29.0)
+|   15 > 210
+|   |   3 <= 1.335
+|   |   |   15 <= 351: - (3.0)
+|   |   |   15 > 351: + (31.0/7.0)
+|   |   3 > 1.335: + (109.0/5.0)
+10 = f
+|   15 <= 1270: - (371.0/83.0)
+|   15 > 1270
+|   |   15 <= 5200
+|   |   |   15 <= 3257: + (9.0/3.0)
+|   |   |   15 > 3257: - (7.0/1.0)
+|   |   15 > 5200: + (8.0)
+
+Number of Leaves  : 	9
+
+Size of the tree : 	17
+
+
+Time taken to build model: 0.01 seconds
+
+=== Evaluation on training set ===
+
+Time taken to test model on training data: 0 seconds
+
+=== Summary ===
+
+Correctly Classified Instances         553               80.1449 %
+Incorrectly Classified Instances       137               19.8551 %
+Kappa statistic                          0.5861
+Mean absolute error                      0.3041
+Root mean squared error                  0.3899
+Relative absolute error                 61.5614 %
+Root relative squared error             78.4625 %
+Total Number of Instances              690     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.632    0.063    0.890      0.632    0.739      0.609    0.810     0.785     +
+                 0.937    0.368    0.761      0.937    0.840      0.609    0.810     0.773     -
+Weighted Avg.    0.801    0.232    0.818      0.801    0.795      0.609    0.810     0.779     
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 194 113 |   a = +
+  24 359 |   b = -
+

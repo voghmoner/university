@@ -1,0 +1,134 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.trees.RandomTree -K 0 -M 1.0 -V 0.001 -S 1
+Relation:     credit.data-weka.filters.unsupervised.attribute.Remove-R2,5-9,11-12,14-weka.filters.unsupervised.attribute.ReplaceMissingValues-weka.filters.supervised.attribute.Discretize-Rfirst-last-precision6
+Instances:    690
+Attributes:   7
+              1
+              3
+              4
+              10
+              13
+              15
+              16
+Test mode:    split 33.0% train, remainder test
+
+=== Classifier model (full training set) ===
+
+
+RandomTree
+==========
+
+10 = t
+|   4 = u
+|   |   15 = '(-inf-492]'
+|   |   |   1 = a
+|   |   |   |   13 = g
+|   |   |   |   |   3 = '(-inf-4.2075]' : - (32/10)
+|   |   |   |   |   3 = '(4.2075-inf)' : + (21/5)
+|   |   |   |   13 = s : + (1/0)
+|   |   |   |   13 = p : + (0/0)
+|   |   |   1 = b
+|   |   |   |   3 = '(-inf-4.2075]'
+|   |   |   |   |   13 = g : + (39/19)
+|   |   |   |   |   13 = s : + (2/1)
+|   |   |   |   |   13 = p : + (0/0)
+|   |   |   |   3 = '(4.2075-inf)' : + (53/14)
+|   |   15 = '(492-inf)'
+|   |   |   1 = a
+|   |   |   |   3 = '(-inf-4.2075]' : + (12/1)
+|   |   |   |   3 = '(4.2075-inf)' : + (25/1)
+|   |   |   1 = b
+|   |   |   |   3 = '(-inf-4.2075]' : + (34/6)
+|   |   |   |   3 = '(4.2075-inf)' : + (31/1)
+|   4 = y
+|   |   1 = a
+|   |   |   15 = '(-inf-492]' : + (8/4)
+|   |   |   15 = '(492-inf)' : + (3/0)
+|   |   1 = b
+|   |   |   15 = '(-inf-492]'
+|   |   |   |   3 = '(-inf-4.2075]' : - (18/8)
+|   |   |   |   3 = '(4.2075-inf)' : + (6/2)
+|   |   |   15 = '(492-inf)' : + (10/0)
+|   4 = l : + (0/0)
+10 = f
+|   15 = '(-inf-492]'
+|   |   4 = u
+|   |   |   13 = g
+|   |   |   |   3 = '(-inf-4.2075]'
+|   |   |   |   |   1 = a : - (32/6)
+|   |   |   |   |   1 = b : - (94/22)
+|   |   |   |   3 = '(4.2075-inf)'
+|   |   |   |   |   1 = a : - (22/7)
+|   |   |   |   |   1 = b : - (43/14)
+|   |   |   13 = s
+|   |   |   |   1 = a
+|   |   |   |   |   3 = '(-inf-4.2075]' : - (5/1)
+|   |   |   |   |   3 = '(4.2075-inf)' : - (3/0)
+|   |   |   |   1 = b
+|   |   |   |   |   3 = '(-inf-4.2075]' : - (25/3)
+|   |   |   |   |   3 = '(4.2075-inf)' : + (8/3)
+|   |   |   13 = p
+|   |   |   |   1 = a : + (2/0)
+|   |   |   |   1 = b : - (5/2)
+|   |   4 = y
+|   |   |   3 = '(-inf-4.2075]'
+|   |   |   |   13 = g
+|   |   |   |   |   1 = a : - (19/1)
+|   |   |   |   |   1 = b : - (49/5)
+|   |   |   |   13 = s : - (9/1)
+|   |   |   |   13 = p : + (0/0)
+|   |   |   3 = '(4.2075-inf)'
+|   |   |   |   1 = a : - (9/2)
+|   |   |   |   1 = b
+|   |   |   |   |   13 = g : - (19/2)
+|   |   |   |   |   13 = s : + (3/1)
+|   |   |   |   |   13 = p : + (0/0)
+|   |   4 = l : + (1/0)
+|   15 = '(492-inf)'
+|   |   4 = u
+|   |   |   1 = a
+|   |   |   |   3 = '(-inf-4.2075]' : + (6/2)
+|   |   |   |   3 = '(4.2075-inf)' : + (8/4)
+|   |   |   1 = b
+|   |   |   |   3 = '(-inf-4.2075]' : - (14/6)
+|   |   |   |   3 = '(4.2075-inf)' : + (8/4)
+|   |   4 = y
+|   |   |   3 = '(-inf-4.2075]' : - (6/1)
+|   |   |   3 = '(4.2075-inf)'
+|   |   |   |   1 = a : + (1/0)
+|   |   |   |   1 = b : - (3/1)
+|   |   4 = l : + (1/0)
+
+Size of the tree : 81
+
+Time taken to build model: 0 seconds
+
+=== Evaluation on test split ===
+
+Time taken to test model on test split: 0 seconds
+
+=== Summary ===
+
+Correctly Classified Instances         332               71.8615 %
+Incorrectly Classified Instances       130               28.1385 %
+Kappa statistic                          0.4274
+Mean absolute error                      0.3357
+Root mean squared error                  0.4742
+Relative absolute error                 68.0555 %
+Root relative squared error             94.9606 %
+Total Number of Instances              462     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.630    0.207    0.719      0.630    0.672      0.430    0.728     0.671     +
+                 0.793    0.370    0.718      0.793    0.754      0.430    0.728     0.704     -
+Weighted Avg.    0.719    0.295    0.719      0.719    0.716      0.430    0.728     0.689     
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 133  78 |   a = +
+  52 199 |   b = -
+

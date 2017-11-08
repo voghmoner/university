@@ -1,0 +1,62 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.trees.REPTree -M 2 -V 0.001 -N 3 -S 1 -L -1 -I 0.0
+Relation:     credit.data-weka.filters.unsupervised.attribute.Remove-R2,5-9,11-12,14-weka.filters.unsupervised.attribute.Discretize-B5-M-1.0-Rfirst-last
+Instances:    690
+Attributes:   7
+              1
+              3
+              4
+              10
+              13
+              15
+              16
+Test mode:    evaluate on training data
+
+=== Classifier model (full training set) ===
+
+
+REPTree
+============
+
+10 = t : + (197/57) [98/29]
+10 = f
+|   4 = u : - (183.49/52.09) [89.7/26.7]
+|   4 = y
+|   |   13 = g : - (68/7) [38/6]
+|   |   13 = s : - (9/3) [3/0]
+|   |   13 = p : + (1.49/0.6) [0.3/0]
+|   4 = l : + (1.02/0.01) [1/0]
+
+Size of the tree : 9
+
+Time taken to build model: 0 seconds
+
+=== Evaluation on training set ===
+
+Time taken to test model on training data: 0 seconds
+
+=== Summary ===
+
+Correctly Classified Instances         508               73.6232 %
+Incorrectly Classified Instances       182               26.3768 %
+Kappa statistic                          0.4643
+Mean absolute error                      0.3799
+Root mean squared error                  0.4355
+Relative absolute error                 76.9051 %
+Root relative squared error             87.6343 %
+Total Number of Instances              690     
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0.687    0.225    0.710      0.687    0.699      0.464    0.757     0.649     +
+                 0.775    0.313    0.756      0.775    0.765      0.464    0.757     0.746     -
+Weighted Avg.    0.736    0.273    0.736      0.736    0.736      0.464    0.757     0.703     
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 211  96 |   a = +
+  86 297 |   b = -
+
